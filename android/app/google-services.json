@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "301564489884",
+    "project_id": "blindness-detection-6e21c",
+    "storage_bucket": "blindness-detection-6e21c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301564489884:android:fe40576d4e7e3ce98e7d59",
+        "android_client_info": {
+          "package_name": "com.example.detect_blindness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301564489884-tfgodivd7j432g18vm85hd6iq02v24s9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH2l7dirc7BAlp-y-VZPekyJ-TQiRXESQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301564489884-tfgodivd7j432g18vm85hd6iq02v24s9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
