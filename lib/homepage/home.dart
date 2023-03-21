@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:detect_blindness/infopage.dart';
 import "package:flutter/material.dart";
+import"package:detect_blindness/homepage/output_page.dart";
 import"package:firebase_auth/firebase_auth.dart";
 import "package:firebase_core/firebase_core.dart";
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter/services.dart';
+//import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import "package:firebase_storage/firebase_storage.dart";
@@ -37,12 +39,14 @@ class _homepageState extends State<homepage> {
     Tflite.close();
     String res;
     print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    res=(await Tflite.loadModel(model: "assets/model_lite(1).tflite",labels: "assets/images/labels.txt"))!;
-
-
-
-
-    print("Models loading status%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: $res");
+    try {
+      res = (await Tflite.loadModel(model: "assets/model_lite(1).tflite",
+          labels: "assets/images/labels.txt"))!;
+      print("Models loading status%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: $res");
+    }
+    on PlatformException {
+      print('Failed to load model.');
+    }
   }
   Future imageclassification()
   async {
@@ -94,9 +98,19 @@ class _homepageState extends State<homepage> {
     });
 
   }
+  void processimage()
+  {
+    if(ImageFile!=null)
+      {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>output_page()));
+      }
+
+  }
+
   Future _create ()async {
-    showDialog(context: context,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+    //showDialog(context: context,
+        //builder: (context) => Center(child: CircularProgressIndicator()));
     final _firebaseStorage = FirebaseStorage.instance;
     if (ImageFile != null) {
       //Upload to Firebase
@@ -171,7 +185,7 @@ class _homepageState extends State<homepage> {
     ),*/
         child:Scaffold(
           backgroundColor: Colors.white,
-          appBar: NewGradientAppBar(
+          appBar:/* NewGradientAppBar(
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
@@ -200,6 +214,24 @@ class _homepageState extends State<homepage> {
                 //Colors.orange,
               ],
             ),
+          ),*/ AppBar(
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    size:44,
+                  ),
+
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                );
+              },
+            ),
+            backgroundColor:Color(0xFF8EC5FC) ,
+
           ),
           drawer: Drawer(
             child: ListView(
@@ -463,7 +495,7 @@ class _homepageState extends State<homepage> {
                                   textStyle: const TextStyle(fontSize: 15),
                                 ),
                                 onPressed: () {
-                                  imageclassification();
+                                 processimage();
                                   _create();
                                 },
                                 child: Center(child: const Text('Test Scan',
